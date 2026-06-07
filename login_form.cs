@@ -59,9 +59,18 @@ namespace HR_Project
                                     : "User";
 
                                 // OPEN DASHBOARD
-                                Applicant_Dashboard dashboard = new Applicant_Dashboard();
-                                dashboard.Show();
-                                this.Hide();
+                                if (Session.Role == "HR")
+                                {
+                                    HR_Dashboard dashboard = new HR_Dashboard();
+                                    dashboard.Show();
+                                    this.Hide();
+                                }
+                                else
+                                {
+                                    Applicant_Dashboard dashboard = new Applicant_Dashboard();
+                                    dashboard.Show();
+                                    this.Hide();
+                                }
                             }
                             else
                             {
