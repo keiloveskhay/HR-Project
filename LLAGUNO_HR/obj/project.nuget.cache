@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cqPLx1iwkAg=",
+  "dgSpecHash": "UvzYhK+U+us=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ioan\\OneDrive\\Documents\\LLAGUNO_HR\\AdminApp.csproj",
+  "projectFilePath": "c:\\Users\\Ioan\\OneDrive\\Documents\\LLAGUNO_HR\\AdminApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ioan\\.nuget\\packages\\microsoft.data.sqlite\\8.0.0\\microsoft.data.sqlite.8.0.0.nupkg.sha512",
     "C:\\Users\\Ioan\\.nuget\\packages\\microsoft.data.sqlite.core\\8.0.0\\microsoft.data.sqlite.core.8.0.0.nupkg.sha512",

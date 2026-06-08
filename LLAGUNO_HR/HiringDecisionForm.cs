@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace IDK2
 {
-    public class HiringDecisionForm : Form
+    public partial class HiringDecisionForm : Form
     {
         private ComboBox vacancyBox;
         private ListBox decisionsList;

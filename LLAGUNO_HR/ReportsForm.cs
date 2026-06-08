@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace IDK2
 {
-    public class ReportsForm : Form
+    public partial class ReportsForm : Form
     {
         private Label summaryLabel;
         private Button refreshBtn;

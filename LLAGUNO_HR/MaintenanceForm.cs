@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace IDK2
 {
-    public class MaintenanceForm : Form
+    public partial class MaintenanceForm : Form
     {
         private ListBox deptList;
         private TextBox deptBox;

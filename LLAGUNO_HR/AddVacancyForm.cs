@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace IDK2
 {
-    public class AddVacancyForm : Form
+    public partial class AddVacancyForm : Form
     {
         private TextBox titleBox;
         private ComboBox deptBox;

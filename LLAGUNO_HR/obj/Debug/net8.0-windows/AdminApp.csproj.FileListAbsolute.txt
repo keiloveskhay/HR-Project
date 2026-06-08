@@ -78,3 +78,10 @@ C:\Users\Ioan\OneDrive\Documents\LLAGUNO_HR\obj\Debug\net8.0-windows\refint\Admi
 C:\Users\Ioan\OneDrive\Documents\LLAGUNO_HR\obj\Debug\net8.0-windows\AdminApp.pdb
 C:\Users\Ioan\OneDrive\Documents\LLAGUNO_HR\obj\Debug\net8.0-windows\AdminApp.genruntimeconfig.cache
 C:\Users\Ioan\OneDrive\Documents\LLAGUNO_HR\obj\Debug\net8.0-windows\ref\AdminApp.dll
+C:\Users\Ioan\OneDrive\Documents\LLAGUNO_HR\obj\Debug\net8.0-windows\IDK2.AddVacancyForm.resources
+C:\Users\Ioan\OneDrive\Documents\LLAGUNO_HR\obj\Debug\net8.0-windows\IDK2.HiringDecisionForm.resources
+C:\Users\Ioan\OneDrive\Documents\LLAGUNO_HR\obj\Debug\net8.0-windows\IDK2.MainForm.resources
+C:\Users\Ioan\OneDrive\Documents\LLAGUNO_HR\obj\Debug\net8.0-windows\IDK2.MaintenanceForm.resources
+C:\Users\Ioan\OneDrive\Documents\LLAGUNO_HR\obj\Debug\net8.0-windows\IDK2.ReportsForm.resources
+C:\Users\Ioan\OneDrive\Documents\LLAGUNO_HR\obj\Debug\net8.0-windows\IDK2.VacancyForm.resources
+C:\Users\Ioan\OneDrive\Documents\LLAGUNO_HR\obj\Debug\net8.0-windows\AdminApp.csproj.GenerateResource.cache

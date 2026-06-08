@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace IDK2
 {
-    public class VacancyForm : Form
+    public partial class VacancyForm : Form
     {
         private DataGridView grid;
         private Button addBtn;
