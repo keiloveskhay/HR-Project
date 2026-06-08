@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace IDk
 {
-    public class MainForm : Form
+    public partial class MainForm : Form
     {
         private TabControl tabControl;
         private TabPage tabRegister;

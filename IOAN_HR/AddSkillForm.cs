@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace IDk
 {
-    public class AddSkillForm : Form
+    public partial class AddSkillForm : Form
     {
         private TextBox skillBox;
         private Button okBtn;

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ioan\\OneDrive\\Documents\\IDk\\ApplicantApp.csproj": {}
+    "c:\\Users\\Ioan\\OneDrive\\Documents\\IOAN_HR\\ApplicantApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ioan\\OneDrive\\Documents\\IDk\\ApplicantApp.csproj": {
+    "c:\\Users\\Ioan\\OneDrive\\Documents\\IOAN_HR\\ApplicantApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ioan\\OneDrive\\Documents\\IDk\\ApplicantApp.csproj",
+        "projectUniqueName": "c:\\Users\\Ioan\\OneDrive\\Documents\\IOAN_HR\\ApplicantApp.csproj",
         "projectName": "ApplicantApp",
-        "projectPath": "C:\\Users\\Ioan\\OneDrive\\Documents\\IDk\\ApplicantApp.csproj",
+        "projectPath": "c:\\Users\\Ioan\\OneDrive\\Documents\\IOAN_HR\\ApplicantApp.csproj",
         "packagesPath": "C:\\Users\\Ioan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ioan\\OneDrive\\Documents\\IDk\\obj\\",
+        "outputPath": "c:\\Users\\Ioan\\OneDrive\\Documents\\IOAN_HR\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ioan\\AppData\\Roaming\\NuGet\\NuGet.Config",

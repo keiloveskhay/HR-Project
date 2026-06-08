@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace IDk
 {
-    public class AddEducationForm : Form
+    public partial class AddEducationForm : Form
     {
         private TextBox inst;
         private TextBox degree;

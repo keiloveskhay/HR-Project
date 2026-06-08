@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace IDk
 {
-    public class ChangePasswordForm : Form
+    public partial class ChangePasswordForm : Form
     {
         private readonly string _email;
         private TextBox oldBox;

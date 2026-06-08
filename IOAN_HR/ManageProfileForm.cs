@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace IDk
 {
-    public class ManageProfileForm : Form
+    public partial class ManageProfileForm : Form
     {
         private readonly string _email;
         private Applicant _applicant;

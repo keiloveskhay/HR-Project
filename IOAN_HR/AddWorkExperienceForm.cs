@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace IDk
 {
-    public class AddWorkExperienceForm : Form
+    public partial class AddWorkExperienceForm : Form
     {
         private TextBox companyBox;
         private TextBox titleBox;
