@@ -1,0 +1,90 @@
+﻿namespace HR_Recruitment_Workflow_Jared
+{
+    partial class FormInterview
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            txtAppID = new TextBox();
+            dtpInterviewDate = new DateTimePicker();
+            txtInterviewer = new TextBox();
+            btnSchedule = new Button();
+            SuspendLayout();
+            // 
+            // txtAppID
+            // 
+            txtAppID.Location = new Point(226, 91);
+            txtAppID.Name = "txtAppID";
+            txtAppID.Size = new Size(125, 27);
+            txtAppID.TabIndex = 0;
+            // 
+            // dtpInterviewDate
+            // 
+            dtpInterviewDate.Location = new Point(355, 91);
+            dtpInterviewDate.Name = "dtpInterviewDate";
+            dtpInterviewDate.Size = new Size(250, 27);
+            dtpInterviewDate.TabIndex = 1;
+            // 
+            // txtInterviewer
+            // 
+            txtInterviewer.Location = new Point(226, 127);
+            txtInterviewer.Name = "txtInterviewer";
+            txtInterviewer.Size = new Size(379, 27);
+            txtInterviewer.TabIndex = 2;
+            // 
+            // btnSchedule
+            // 
+            btnSchedule.Location = new Point(226, 56);
+            btnSchedule.Name = "btnSchedule";
+            btnSchedule.Size = new Size(146, 29);
+            btnSchedule.TabIndex = 3;
+            btnSchedule.Text = "Schedule Interview";
+            btnSchedule.UseVisualStyleBackColor = true;
+            btnSchedule.Click += btnSchedule_Click;
+            // 
+            // FormInterview
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(btnSchedule);
+            Controls.Add(txtInterviewer);
+            Controls.Add(dtpInterviewDate);
+            Controls.Add(txtAppID);
+            Name = "FormInterview";
+            Text = "FormInterview";
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private TextBox txtAppID;
+        private DateTimePicker dtpInterviewDate;
+        private TextBox txtInterviewer;
+        private Button btnSchedule;
+    }
+}

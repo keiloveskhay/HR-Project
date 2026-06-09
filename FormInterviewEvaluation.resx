@@ -1,0 +1,63 @@
+﻿using System;
+using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+
+namespace HR_Recruitment_Workflow_Jared
+{
+    public partial class FormApplicantReview : Form
+    {
+        DatabaseConnection db = new DatabaseConnection();
+
+        public FormApplicantReview()
+        {
+            InitializeComponent();
+        }
+
+        private void btnLock_Click(object sender, EventArgs e)
+        {
+            
+            if (string.IsNullOrWhiteSpace(txtAppID.Text))
+            {
+                MessageBox.Show("Please enter an Application ID to review and lock.", "Missing Info", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int appID = Convert.ToInt32(txtAppID.Text);
+
+            try
+            {
+                using (MySqlConnection conn = db.GetConnection())
+                {
+                    conn.Open();
+
+                    
+                    string updateApp = "UPDATE Applications SET Status = 'Under Review' WHERE ApplicationID = @AppID";
+                    MySqlCommand cmdUpdate = new MySqlCommand(updateApp, conn);
+                    cmdUpdate.Parameters.AddWithValue("@AppID", appID);
+                    int rowsAffected = cmdUpdate.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                      
+                        string historyQuery = "INSERT INTO ApplicationStatusHistory (ApplicationID, NewStatus, ChangedBy, Remarks) VALUES (@AppID, 'Under Review', 'HR Staff', 'Application locked for HR review.')";
+                        MySqlCommand histCmd = new MySqlCommand(historyQuery, conn);
+                        histCmd.Parameters.AddWithValue("@AppID", appID);
+                        histCmd.ExecuteNonQuery();
+
+                        MessageBox.Show("Application successfully locked and is now Under Review!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Application ID not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+
+                    txtAppID.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Database Error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
+}

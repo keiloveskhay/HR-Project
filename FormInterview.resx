@@ -1,0 +1,130 @@
+using System;
+using System.Data;
+using System.Windows.Forms;
+using MySql.Data.MySqlClient;
+
+namespace HR_Recruitment_Workflow_Jared
+{
+    public partial class Form1 : Form
+    {
+        
+        DatabaseConnection db = new DatabaseConnection();
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            LoadApplicants();
+        }
+
+        
+        private void LoadApplicants()
+        {
+            try
+            {
+                using (MySqlConnection conn = db.GetConnection())
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT 
+                            a.ApplicationID, 
+                            CONCAT(appl.FirstName, ' ', appl.LastName) AS 'Applicant Name',
+                            jv.JobTitle AS 'Position',
+                            a.Status
+                        FROM Applications a
+                        INNER JOIN Applicants appl ON a.ApplicantID = appl.ApplicantID
+                        INNER JOIN JobVacancies jv ON a.VacancyID = jv.VacancyID
+                        WHERE a.Status = 'Submitted' OR a.Status = 'Under Review'";
+
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dgvApplicants.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading applicants: " + ex.Message);
+            }
+        }
+
+       
+        private void btnLockReview_Click(object sender, EventArgs e)
+        {
+            if (dgvApplicants.SelectedRows.Count > 0)
+            {
+              
+                int appID = Convert.ToInt32(dgvApplicants.SelectedRows[0].Cells["ApplicationID"].Value);
+
+                try
+                {
+                    using (MySqlConnection conn = db.GetConnection())
+                    {
+                        conn.Open();
+                        
+                        string updateQuery = "UPDATE Applications SET Status = 'Under Review' WHERE ApplicationID = @AppID";
+                        MySqlCommand cmd = new MySqlCommand(updateQuery, conn);
+                        cmd.Parameters.AddWithValue("@AppID", appID);
+                        cmd.ExecuteNonQuery();
+
+                       
+                        string historyQuery = "INSERT INTO ApplicationStatusHistory (ApplicationID, NewStatus, ChangedBy, Remarks) VALUES (@AppID, 'Under Review', 'HR Staff', 'Application locked for review.')";
+                        MySqlCommand histCmd = new MySqlCommand(historyQuery, conn);
+                        histCmd.Parameters.AddWithValue("@AppID", appID);
+                        histCmd.ExecuteNonQuery();
+
+                        MessageBox.Show("Application locked and is now Under Review.");
+                        LoadApplicants(); 
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error locking application: " + ex.Message);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please click the empty space on the far left of a row to select an applicant first.");
+            }
+        }
+
+        
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (MySqlConnection conn = db.GetConnection())
+                {
+                    conn.Open();
+                    string query = @"
+                        SELECT 
+                            a.ApplicationID, 
+                            CONCAT(appl.FirstName, ' ', appl.LastName) AS 'Applicant Name',
+                            jv.JobTitle AS 'Position',
+                            a.Status
+                        FROM Applications a
+                        INNER JOIN Applicants appl ON a.ApplicantID = appl.ApplicantID
+                        INNER JOIN JobVacancies jv ON a.VacancyID = jv.VacancyID
+                        WHERE (a.Status = 'Submitted' OR a.Status = 'Under Review')
+                        AND CONCAT(appl.FirstName, ' ', appl.LastName) LIKE @SearchTerm";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@SearchTerm", "%" + txtSearch.Text + "%");
+
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dgvApplicants.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Search Error: " + ex.Message);
+            }
+        }
+    }
+}
