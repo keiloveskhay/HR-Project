@@ -1,0 +1,93 @@
+﻿namespace HR_Recruitment_Workflow_Jared
+{
+    partial class FormScreening
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            txtAppID = new TextBox();
+            cmbResult = new ComboBox();
+            txtRemarks = new TextBox();
+            btnSubmitScreening = new Button();
+            SuspendLayout();
+            // 
+            // txtAppID
+            // 
+            txtAppID.Location = new Point(31, 31);
+            txtAppID.Name = "txtAppID";
+            txtAppID.Size = new Size(125, 27);
+            txtAppID.TabIndex = 0;
+            // 
+            // cmbResult
+            // 
+            cmbResult.FormattingEnabled = true;
+            cmbResult.Items.AddRange(new object[] { "Qualified", "Not Qualified" });
+            cmbResult.Location = new Point(162, 30);
+            cmbResult.Name = "cmbResult";
+            cmbResult.Size = new Size(151, 28);
+            cmbResult.TabIndex = 1;
+            // 
+            // txtRemarks
+            // 
+            txtRemarks.Location = new Point(162, 66);
+            txtRemarks.Multiline = true;
+            txtRemarks.Name = "txtRemarks";
+            txtRemarks.Size = new Size(394, 241);
+            txtRemarks.TabIndex = 2;
+            // 
+            // btnSubmitScreening
+            // 
+            btnSubmitScreening.Location = new Point(321, 33);
+            btnSubmitScreening.Name = "btnSubmitScreening";
+            btnSubmitScreening.Size = new Size(200, 29);
+            btnSubmitScreening.TabIndex = 3;
+            btnSubmitScreening.Text = "Submit Screening Result";
+            btnSubmitScreening.UseVisualStyleBackColor = true;
+            btnSubmitScreening.Click += btnSubmitScreening_Click;
+            // 
+            // FormScreening
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1110, 450);
+            Controls.Add(btnSubmitScreening);
+            Controls.Add(txtRemarks);
+            Controls.Add(cmbResult);
+            Controls.Add(txtAppID);
+            Name = "FormScreening";
+            Text = "FormScreening";
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private TextBox txtAppID;
+        private ComboBox cmbResult;
+        private TextBox txtRemarks;
+        private Button btnSubmitScreening;
+    }
+}
