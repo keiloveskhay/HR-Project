@@ -1,4 +1,5 @@
 ﻿namespace HR_Project
+
 {
     partial class Applicant_Dashboard
     {
@@ -28,22 +29,22 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.MyProfileButton = new System.Windows.Forms.Button();
+            this.btnMyProfile = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnJobVacancies = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.lblWelcome = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // MyProfileButton
+            // btnMyProfile
             // 
-            this.MyProfileButton.Location = new System.Drawing.Point(149, 182);
-            this.MyProfileButton.Name = "MyProfileButton";
-            this.MyProfileButton.Size = new System.Drawing.Size(104, 23);
-            this.MyProfileButton.TabIndex = 1;
-            this.MyProfileButton.Text = "My Profile";
-            this.MyProfileButton.UseVisualStyleBackColor = true;
-            this.MyProfileButton.Click += new System.EventHandler(this.button1_Click);
+            this.btnMyProfile.Location = new System.Drawing.Point(149, 182);
+            this.btnMyProfile.Name = "btnMyProfile";
+            this.btnMyProfile.Size = new System.Drawing.Size(104, 23);
+            this.btnMyProfile.TabIndex = 1;
+            this.btnMyProfile.Text = "My Profile";
+            this.btnMyProfile.UseVisualStyleBackColor = true;
+            this.btnMyProfile.Click += new System.EventHandler(this.btnMyProfile_Click);
             // 
             // button2
             // 
@@ -54,14 +55,15 @@
             this.button2.Text = "My Application/s";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btnJobVacancies
             // 
-            this.button3.Location = new System.Drawing.Point(500, 182);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(104, 23);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Job Vacancies ";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnJobVacancies.Location = new System.Drawing.Point(500, 182);
+            this.btnJobVacancies.Name = "btnJobVacancies";
+            this.btnJobVacancies.Size = new System.Drawing.Size(104, 23);
+            this.btnJobVacancies.TabIndex = 3;
+            this.btnJobVacancies.Text = "Job Vacancies ";
+            this.btnJobVacancies.UseVisualStyleBackColor = true;
+            this.btnJobVacancies.Click += new System.EventHandler(this.btnJobVacancies_Click);
             // 
             // button4
             // 
@@ -90,9 +92,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.btnJobVacancies);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.MyProfileButton);
+            this.Controls.Add(this.btnMyProfile);
             this.Controls.Add(this.lblWelcome);
             this.Name = "Applicant_Dashboard";
             this.Text = "Applicant_Dashboard";
@@ -102,9 +104,9 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button MyProfileButton;
+        private System.Windows.Forms.Button btnMyProfile;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnJobVacancies;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label lblWelcome;
     }

@@ -30,13 +30,13 @@
         {
             this.dgvUsers = new System.Windows.Forms.DataGridView();
             this.btnRefresh = new System.Windows.Forms.Button();
-            this.txtFullName = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.Label();
-            this.txtPassword = new System.Windows.Forms.Label();
             this.cmbUserType = new System.Windows.Forms.ComboBox();
             this.btnAddUser = new System.Windows.Forms.Button();
             this.btnUpdateUser = new System.Windows.Forms.Button();
             this.btnDeactivateUser = new System.Windows.Forms.Button();
+            this.txtFullName = new System.Windows.Forms.TextBox();
+            this.txtEmail = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsers)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,33 +62,6 @@
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // txtFullName
-            // 
-            this.txtFullName.AutoSize = true;
-            this.txtFullName.Location = new System.Drawing.Point(40, 233);
-            this.txtFullName.Name = "txtFullName";
-            this.txtFullName.Size = new System.Drawing.Size(54, 13);
-            this.txtFullName.TabIndex = 3;
-            this.txtFullName.Text = "Full Name";
-            // 
-            // txtEmail
-            // 
-            this.txtEmail.AutoSize = true;
-            this.txtEmail.Location = new System.Drawing.Point(40, 258);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(32, 13);
-            this.txtEmail.TabIndex = 4;
-            this.txtEmail.Text = "Email";
-            // 
-            // txtPassword
-            // 
-            this.txtPassword.AutoSize = true;
-            this.txtPassword.Location = new System.Drawing.Point(40, 283);
-            this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(53, 13);
-            this.txtPassword.TabIndex = 5;
-            this.txtPassword.Text = "Password";
             // 
             // cmbUserType
             // 
@@ -132,18 +105,42 @@
             this.btnDeactivateUser.UseVisualStyleBackColor = true;
             this.btnDeactivateUser.Click += new System.EventHandler(this.btnDeactivateUser_Click);
             // 
+            // txtFullName
+            // 
+            this.txtFullName.Location = new System.Drawing.Point(43, 203);
+            this.txtFullName.Name = "txtFullName";
+            this.txtFullName.Size = new System.Drawing.Size(100, 20);
+            this.txtFullName.TabIndex = 10;
+            this.txtFullName.Text = "Full Name";
+            // 
+            // txtEmail
+            // 
+            this.txtEmail.Location = new System.Drawing.Point(43, 244);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(100, 20);
+            this.txtEmail.TabIndex = 11;
+            this.txtEmail.Text = "Email";
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(43, 289);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(100, 20);
+            this.txtPassword.TabIndex = 12;
+            this.txtPassword.Text = "Password";
+            // 
             // UserManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.txtPassword);
+            this.Controls.Add(this.txtEmail);
+            this.Controls.Add(this.txtFullName);
             this.Controls.Add(this.btnDeactivateUser);
             this.Controls.Add(this.btnUpdateUser);
             this.Controls.Add(this.btnAddUser);
             this.Controls.Add(this.cmbUserType);
-            this.Controls.Add(this.txtPassword);
-            this.Controls.Add(this.txtEmail);
-            this.Controls.Add(this.txtFullName);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.dgvUsers);
             this.Name = "UserManagementForm";
@@ -158,12 +155,12 @@
 
         private System.Windows.Forms.DataGridView dgvUsers;
         private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Label txtFullName;
-        private System.Windows.Forms.Label txtEmail;
-        private System.Windows.Forms.Label txtPassword;
         private System.Windows.Forms.ComboBox cmbUserType;
         private System.Windows.Forms.Button btnAddUser;
         private System.Windows.Forms.Button btnUpdateUser;
         private System.Windows.Forms.Button btnDeactivateUser;
+        private System.Windows.Forms.TextBox txtFullName;
+        private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.TextBox txtPassword;
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using HR_Project;
+using MySql.Data.MySqlClient;
+using System;
+using System.Data;
 using System.Windows.Forms;
 
 namespace HR_Project
@@ -15,16 +18,38 @@ namespace HR_Project
             lblWelcome.Text = "Welcome, " + Session.Username;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
+   
 
         private void button4_Click(object sender, EventArgs e)
         {
+            Session.UserId = 0;
+            Session.Username = "";
+            Session.FullName = "";
+            Session.Role = "";
+
             login_form login = new login_form();
             login.Show();
             this.Close();
         }
+
+        private void btnJobVacancies_Click(object sender, EventArgs e)
+        {
+            FormJobVacancies form = new FormJobVacancies();
+            form.Show();
+        }
+
+        private void btnMyProfile_Click(object sender, EventArgs e)
+        {
+            ManageProfileForm form = new ManageProfileForm(Session.Username);
+            form.Show();
+        }
     }
 }
+
+
+
+
+
+
+
+

@@ -58,18 +58,28 @@ namespace HR_Project
                                     ? reader["UserType"].ToString()
                                     : "User";
 
-                                // OPEN DASHBOARD
-                                if (Session.Role == "HR")
+                                // OPEN DASHBOARD (UPDATED ROUTING ONLY)
+                                this.Hide();
+
+                                if (Session.Role == "Admin")
                                 {
                                     HR_Dashboard dashboard = new HR_Dashboard();
                                     dashboard.Show();
-                                    this.Hide();
                                 }
-                                else
+                                else if (Session.Role == "HR")
+                                {
+                                    HR_Dashboard dashboard = new HR_Dashboard();
+                                    dashboard.Show();
+                                }
+                                else if (Session.Role == "Applicant")
                                 {
                                     Applicant_Dashboard dashboard = new Applicant_Dashboard();
                                     dashboard.Show();
-                                    this.Hide();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Unknown user role.");
+                                    this.Show();
                                 }
                             }
                             else
@@ -84,6 +94,12 @@ namespace HR_Project
             {
                 MessageBox.Show("Database Error: " + ex.Message);
             }
+        }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+            MainForm registerForm = new MainForm();
+            registerForm.Show();
         }
     }
 }

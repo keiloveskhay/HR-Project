@@ -95,19 +95,85 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddVacancyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddVacancyForm.Designer.cs" />
     <Compile Include="Applicant_Dashboard.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Applicant_Dashboard.Designer.cs">
       <DependentUpon>Applicant_Dashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="ChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangePasswordForm.Designer.cs" />
     <Compile Include="database_config.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs" />
+    <Compile Include="FormApplicantReview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormApplicantReview.Designer.cs" />
+    <Compile Include="FormInterview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInterview.Designer.cs" />
+    <Compile Include="FormInterviewEvaluation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInterviewEvaluation.Designer.cs" />
+    <Compile Include="FormJobVacancies.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormJobVacancies.Designer.cs" />
+    <Compile Include="FormScreening.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormScreening.Designer.cs" />
+    <Compile Include="FrmApplicationStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmApplicationStatus.Designer.cs" />
+    <Compile Include="frmMyApplication.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMyApplication.Designer.cs" />
+    <Compile Include="FrmMyDocuments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmMyDocuments.Designer.cs" />
+    <Compile Include="HiringDecisionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HiringDecisionForm.Designer.cs" />
     <Compile Include="HR_Dashboard.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HR_Dashboard.Designer.cs">
       <DependentUpon>HR_Dashboard.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MaintenanceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MaintenanceForm.Designer.cs" />
+    <Compile Include="ManageProfileForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManageProfileForm.Designer.cs" />
+    <Compile Include="ReportsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportsForm.Designer.cs" />
     <Compile Include="session.cs" />
     <Compile Include="login_form.cs">
       <SubType>Form</SubType>
@@ -123,15 +189,30 @@
     <Compile Include="User_Management_Form.Designer.cs">
       <DependentUpon>User_Management_Form.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AddVacancyForm.resx" />
     <EmbeddedResource Include="Applicant_Dashboard.resx">
       <DependentUpon>Applicant_Dashboard.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ChangePasswordForm.resx" />
+    <EmbeddedResource Include="Form1.resx" />
+    <EmbeddedResource Include="FormApplicantReview.resx" />
+    <EmbeddedResource Include="FormInterview.resx" />
+    <EmbeddedResource Include="FormInterviewEvaluation.resx" />
+    <EmbeddedResource Include="FormJobVacancies.resx" />
+    <EmbeddedResource Include="FormScreening.resx" />
+    <EmbeddedResource Include="FrmApplicationStatus.resx" />
+    <EmbeddedResource Include="frmMyApplication.resx" />
+    <EmbeddedResource Include="FrmMyDocuments.resx" />
+    <EmbeddedResource Include="HiringDecisionForm.resx" />
     <EmbeddedResource Include="HR_Dashboard.resx">
       <DependentUpon>HR_Dashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="login_form.resx">
       <DependentUpon>login_form.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx" />
+    <EmbeddedResource Include="MaintenanceForm.resx" />
+    <EmbeddedResource Include="ManageProfileForm.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -141,6 +222,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ReportsForm.resx" />
     <EmbeddedResource Include="User_Management_Form.resx">
       <DependentUpon>User_Management_Form.cs</DependentUpon>
     </EmbeddedResource>
