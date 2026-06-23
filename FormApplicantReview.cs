@@ -1,4 +1,4 @@
-﻿using HR_Project;
+using HR_Project;
 using MySql.Data.MySqlClient;
 using System;
 using System.Data;
@@ -96,6 +96,56 @@ namespace HR_Recruitment_Workflow_Jared
 
             object result = cmd.ExecuteScalar();
             return result == null ? -1 : Convert.ToInt32(result);
+        }
+
+        private void btnViewProfile_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtAppID.Text))
+            {
+                MessageBox.Show("Enter Application ID first.");
+                return;
+            }
+
+            if (!int.TryParse(txtAppID.Text, out int appID))
+            {
+                MessageBox.Show("Invalid Application ID.");
+                return;
+            }
+
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(DatabaseConfig.ConnectionString))
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT aa.Email 
+                        FROM Applications a
+                        INNER JOIN Applicants ap ON a.ApplicantID = ap.ApplicantID
+                        INNER JOIN ApplicantAccounts aa ON ap.AccountID = aa.AccountID
+                        WHERE a.ApplicationID = @AppID";
+
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@AppID", appID);
+
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        string email = result.ToString();
+                        ManageProfileForm profileForm = new ManageProfileForm(email);
+                        profileForm.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Applicant or Profile not found.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
     }
 }

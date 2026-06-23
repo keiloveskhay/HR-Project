@@ -37,6 +37,12 @@ namespace HR_Project
 
                     // Total applications
                     int totalApplications = GetCount(conn, "SELECT COUNT(*) FROM Applications");
+                    
+                    // Active applications
+                    int activeApplications = GetCount(conn, 
+                        "SELECT COUNT(*) FROM Applications a " +
+                        "INNER JOIN ApplicationStatuses s ON a.StatusID = s.StatusID " +
+                        "WHERE s.StatusName != 'Withdrawn'");
 
                     // Total hiring decisions
                     int totalDecisions = GetCount(conn, "SELECT COUNT(*) FROM HiringDecisions");
@@ -50,7 +56,8 @@ namespace HR_Project
                         $"Vacancies: {totalVacancies}\n" +
                         $"Open Vacancies: {openVacancies}\n" +
                         $"Closed Vacancies: {closedVacancies}\n\n" +
-                        $"Applications: {totalApplications}\n" +
+                        $"Total Applications: {totalApplications}\n" +
+                        $"Active Applications: {activeApplications}\n" +
                         $"Decisions Made: {totalDecisions}\n" +
                         $"Hires: {totalHires}";
                 }

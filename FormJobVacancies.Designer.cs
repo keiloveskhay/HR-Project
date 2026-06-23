@@ -1,4 +1,4 @@
-﻿namespace HR_Project
+namespace HR_Project
 {
     partial class FormJobVacancies
     {
@@ -22,7 +22,6 @@
             this.dgvJobVacancies = new System.Windows.Forms.DataGridView();
             this.lblTitle = new System.Windows.Forms.Label();
             this.btnApply = new System.Windows.Forms.Button();
-            this.btnMyApplications = new System.Windows.Forms.Button();
 
             ((System.ComponentModel.ISupportInitialize)(this.dgvJobVacancies)).BeginInit();
             this.SuspendLayout();
@@ -59,18 +58,11 @@
             this.btnApply.Text = "APPLY";
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
 
-            // btnMyApplications
-            this.btnMyApplications.Location = new System.Drawing.Point(867, 358);
-            this.btnMyApplications.Name = "btnMyApplications";
-            this.btnMyApplications.Size = new System.Drawing.Size(154, 35);
-            this.btnMyApplications.Text = "My Applications";
-            this.btnMyApplications.Click += new System.EventHandler(this.btnMyApplications_Click);
 
             // FormJobVacancies
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1138, 547);
-            this.Controls.Add(this.btnMyApplications);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.lblTitle);
             this.Controls.Add(this.btnSearch);
@@ -92,6 +84,5 @@
         private System.Windows.Forms.DataGridView dgvJobVacancies;
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button btnApply;
-        private System.Windows.Forms.Button btnMyApplications;
     }
 }

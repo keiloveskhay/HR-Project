@@ -16,7 +16,7 @@ namespace HR_Project
         private TextBox regConfirm;
         private Button regButton;
 
-        // PROFILE (NO LOGIN DEPENDENCY)
+        // PROFILE
         private Label profileLabel;
         private TextBox profileName;
         private TextBox profileEmail;
@@ -43,7 +43,6 @@ namespace HR_Project
             tabRegister = new TabPage("Register");
             tabProfile = new TabPage("Profile");
 
-            // ================= REGISTER =================
             regEmail = new TextBox { Left = 20, Top = 20, Width = 420 };
             regPassword = new TextBox { Left = 20, Top = 60, Width = 420, UseSystemPasswordChar = true };
             regConfirm = new TextBox { Left = 20, Top = 100, Width = 420, UseSystemPasswordChar = true };
@@ -63,13 +62,11 @@ namespace HR_Project
                 regButton
             });
 
-            // ================= PROFILE =================
             profileLabel = new Label { Text = "Profile", Left = 20, Top = 20 };
 
-            profileName = new TextBox { Left = 20, Top = 50, Width = 420 };
-            profileEmail = new TextBox { Left = 20, Top = 80, Width = 420, ReadOnly = true };
-            profilePhone = new TextBox { Left = 20, Top = 110, Width = 420 };
-            profileAddress = new TextBox { Left = 20, Top = 140, Width = 420 };
+            profileEmail = new TextBox { Left = 20, Top = 50, Width = 420, ReadOnly = true };
+            profilePhone = new TextBox { Left = 20, Top = 80, Width = 420 };
+            profileAddress = new TextBox { Left = 20, Top = 110, Width = 420 };
 
             refreshProfileButton = new Button { Text = "Refresh", Left = 460, Top = 50 };
             editProfileButton = new Button { Text = "Save", Left = 460, Top = 80 };
@@ -80,7 +77,6 @@ namespace HR_Project
             tabProfile.Controls.AddRange(new Control[]
             {
                 profileLabel,
-                profileName,
                 profileEmail,
                 profilePhone,
                 profileAddress,
@@ -101,8 +97,7 @@ namespace HR_Project
             string pass = regPassword.Text;
             string confirm = regConfirm.Text;
 
-            if (string.IsNullOrWhiteSpace(email) ||
-                string.IsNullOrWhiteSpace(pass))
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(pass))
             {
                 MessageBox.Show("Please fill all fields.");
                 return;
@@ -118,8 +113,8 @@ namespace HR_Project
             {
                 conn.Open();
 
-                // CHECK DUPLICATE EMAIL
-                string checkQuery = "SELECT COUNT(*) FROM Users WHERE Email=@Email";
+                // CHECK DUPLICATE EMAIL (ApplicantAccounts is your real table)
+                string checkQuery = "SELECT COUNT(*) FROM ApplicantAccounts WHERE Email=@Email";
                 MySqlCommand checkCmd = new MySqlCommand(checkQuery, conn);
                 checkCmd.Parameters.AddWithValue("@Email", email);
 
@@ -131,29 +126,32 @@ namespace HR_Project
                     return;
                 }
 
-                // INSERT USER
-                string insertUser = @"
-                    INSERT INTO Users (FullName, Email, PasswordHash, UserType)
-                    VALUES (@FullName, @Email, @Password, 'Applicant')";
+                // INSERT ACCOUNT (FIXED: Password NOT PasswordHash)
+                string insertAccount = @"
+                    INSERT INTO ApplicantAccounts (Email, Password)
+                    VALUES (@Email, @Password)";
 
-                MySqlCommand cmd = new MySqlCommand(insertUser, conn);
-                cmd.Parameters.AddWithValue("@FullName", email);
+                MySqlCommand cmd = new MySqlCommand(insertAccount, conn);
                 cmd.Parameters.AddWithValue("@Email", email);
                 cmd.Parameters.AddWithValue("@Password", pass);
 
                 cmd.ExecuteNonQuery();
 
-                long userId = cmd.LastInsertedId;
+                long accountId = cmd.LastInsertedId;
 
-                // CREATE PROFILE
-                string insertProfile = @"
-                    INSERT INTO ApplicantProfiles (UserID)
-                    VALUES (@UserID)";
+                // CREATE APPLICANT PROFILE (FIXED: correct table = Applicants)
+                string insertApplicant = @"
+                    INSERT INTO Applicants (AccountID, FirstName, LastName)
+                    VALUES (@AccountID, @FirstName, @LastName)";
 
-                MySqlCommand cmd2 = new MySqlCommand(insertProfile, conn);
-                cmd2.Parameters.AddWithValue("@UserID", userId);
+                MySqlCommand cmd2 = new MySqlCommand(insertApplicant, conn);
+                cmd2.Parameters.AddWithValue("@AccountID", accountId);
+                cmd2.Parameters.AddWithValue("@FirstName", "");
+                cmd2.Parameters.AddWithValue("@LastName", "");
 
                 cmd2.ExecuteNonQuery();
+
+                currentUserId = (int)accountId;
             }
 
             MessageBox.Show("Account created successfully!");
@@ -177,21 +175,22 @@ namespace HR_Project
                 conn.Open();
 
                 string query = @"
-                    SELECT u.Email, p.ContactNumber, p.Address
-                    FROM Users u
-                    JOIN ApplicantProfiles p ON u.UserID = p.UserID
-                    WHERE u.UserID = @UserID";
+                    SELECT aa.Email, a.ContactNumber, a.Address
+                    FROM ApplicantAccounts aa
+                    JOIN Applicants a ON aa.AccountID = a.AccountID
+                    WHERE aa.AccountID = @AccountID";
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@UserID", currentUserId);
+                cmd.Parameters.AddWithValue("@AccountID", currentUserId);
 
-                MySqlDataReader reader = cmd.ExecuteReader();
-
-                if (reader.Read())
+                using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
-                    profileEmail.Text = reader["Email"].ToString();
-                    profilePhone.Text = reader["ContactNumber"].ToString();
-                    profileAddress.Text = reader["Address"].ToString();
+                    if (reader.Read())
+                    {
+                        profileEmail.Text = reader["Email"].ToString();
+                        profilePhone.Text = reader["ContactNumber"].ToString();
+                        profileAddress.Text = reader["Address"].ToString();
+                    }
                 }
             }
         }
@@ -205,15 +204,15 @@ namespace HR_Project
                 conn.Open();
 
                 string query = @"
-                    UPDATE ApplicantProfiles
+                    UPDATE Applicants
                     SET ContactNumber=@Phone,
                         Address=@Address
-                    WHERE UserID=@UserID";
+                    WHERE AccountID=@AccountID";
 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@Phone", profilePhone.Text);
                 cmd.Parameters.AddWithValue("@Address", profileAddress.Text);
-                cmd.Parameters.AddWithValue("@UserID", currentUserId);
+                cmd.Parameters.AddWithValue("@AccountID", currentUserId);
 
                 cmd.ExecuteNonQuery();
             }

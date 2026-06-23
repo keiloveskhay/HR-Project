@@ -1,4 +1,4 @@
-﻿using HR_Recruitment_Workflow_Jared;
+using HR_Recruitment_Workflow_Jared;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +16,69 @@ namespace HR_Project
         public HR_Dashboard()
         {
             InitializeComponent();
+            this.Load += HR_Dashboard_Load;
+        }
+
+        private void HR_Dashboard_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                using (MySql.Data.MySqlClient.MySqlConnection conn = new MySql.Data.MySqlClient.MySqlConnection(DatabaseConfig.ConnectionString))
+                {
+                    conn.Open();
+                    string query = "ALTER TABLE JobVacancies ADD COLUMN RequiredDocuments TEXT;";
+                    using (MySql.Data.MySqlClient.MySqlCommand cmd = new MySql.Data.MySqlClient.MySqlCommand(query, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch { /* Ignore duplicate column error */ }
+
+            // Default: hide everything except logout
+            btnUserManagement.Visible = false;
+            btnApplicantList.Visible = false;
+            btnAddVacancy.Visible = false;
+            btnHiringDecision.Visible = false;
+            btnReports.Visible = false;
+            btnMaintenance.Visible = false;
+            btnApplicantReview.Visible = false;
+            btnScreening.Visible = false;
+            btnInterviewSchedule.Visible = false;
+            btnInterviewEvaluation.Visible = false;
+
+            if (Session.Role == "Admin")
+            {
+                this.Text = "Admin Dashboard";
+                btnUserManagement.Visible = true;
+                btnMaintenance.Visible = true;
+                btnReports.Visible = true;
+            }
+            else if (Session.Role == "HR Manager")
+            {
+                this.Text = "HR Manager Dashboard";
+                btnAddVacancy.Visible = true;
+                btnHiringDecision.Visible = true;
+                btnReports.Visible = true;
+                btnApplicantList.Visible = true;
+                btnApplicantReview.Visible = true;
+                btnScreening.Visible = true;
+                btnInterviewSchedule.Visible = true;
+                btnInterviewEvaluation.Visible = true;
+            }
+            else if (Session.Role == "HR Staff")
+            {
+                this.Text = "HR Staff Dashboard";
+                btnApplicantList.Visible = true;
+                btnApplicantReview.Visible = true;
+                btnScreening.Visible = true;
+                btnInterviewSchedule.Visible = true;
+                btnInterviewEvaluation.Visible = true;
+            }
+            else
+            {
+                this.Text = "Dashboard";
+            }
         }
 
         private void btnUserManagement_Click(object sender, EventArgs e)
@@ -44,7 +107,7 @@ namespace HR_Project
 
         private void btnAddVacancy_Click(object sender, EventArgs e)
         {
-            AddVacancyForm form = new AddVacancyForm();
+            FormManageVacancies form = new FormManageVacancies();
             form.ShowDialog();
         }
 

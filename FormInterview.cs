@@ -1,6 +1,7 @@
-﻿using HR_Project;
+using HR_Project;
 using MySql.Data.MySqlClient;
 using System;
+using System.Data;
 using System.Windows.Forms;
 
 namespace HR_Recruitment_Workflow_Jared
@@ -12,6 +13,51 @@ namespace HR_Recruitment_Workflow_Jared
         public FormInterview()
         {
             InitializeComponent();
+        }
+
+        private void FormInterview_Load(object sender, EventArgs e)
+        {
+            LoadApplications();
+        }
+
+        private void LoadApplications()
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT
+                            a.ApplicationID,
+                            CONCAT(ap.FirstName, ' ', ap.LastName) AS 'Applicant Name',
+                            jv.JobTitle AS 'Position',
+                            a.SubmittedAt AS 'Date Applied'
+                        FROM Applications a
+                        INNER JOIN Applicants ap ON a.ApplicantID = ap.ApplicantID
+                        INNER JOIN JobVacancies jv ON a.VacancyID = jv.VacancyID
+                        INNER JOIN ApplicationStatuses s ON a.StatusID = s.StatusID
+                        WHERE s.StatusID = 4";
+
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dgvInterviews.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading applications: " + ex.Message);
+            }
+        }
+
+        private void dgvInterviews_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvInterviews.CurrentRow != null && dgvInterviews.CurrentRow.Cells["ApplicationID"].Value != DBNull.Value)
+            {
+                txtAppID.Text = dgvInterviews.CurrentRow.Cells["ApplicationID"].Value.ToString();
+            }
         }
 
         private void btnSchedule_Click(object sender, EventArgs e)
@@ -34,26 +80,28 @@ namespace HR_Recruitment_Workflow_Jared
 
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(DatabaseConfig.ConnectionString))
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     conn.Open();
 
                     string insertInterview = @"
                         INSERT INTO InterviewSchedules 
-                        (ApplicationID, InterviewDate, Interviewer, Status)
-                        VALUES (@AppID, @Date, @Interviewer, 'Scheduled')";
+                        (ApplicationID, InterviewDate, InterviewTime, Interviewer, Status)
+                        VALUES (@AppID, @Date, @Time, @Interviewer, 'Scheduled')";
 
                     using (MySqlCommand cmdInterview = new MySqlCommand(insertInterview, conn))
                     {
                         cmdInterview.Parameters.AddWithValue("@AppID", appID);
-                        cmdInterview.Parameters.AddWithValue("@Date", interviewDate);
+                        cmdInterview.Parameters.AddWithValue("@Date", interviewDate.Date);
+                        cmdInterview.Parameters.AddWithValue("@Time", interviewDate.TimeOfDay);
                         cmdInterview.Parameters.AddWithValue("@Interviewer", interviewer);
                         cmdInterview.ExecuteNonQuery();
                     }
 
                     string updateApp = @"
                         UPDATE Applications 
-                        SET Status = 'Interview Scheduled' 
+                        SET StatusID = 5,
+                            Status = 'For Interview'
                         WHERE ApplicationID = @AppID";
 
                     using (MySqlCommand cmdUpdate = new MySqlCommand(updateApp, conn))
@@ -66,7 +114,7 @@ namespace HR_Recruitment_Workflow_Jared
                         INSERT INTO ApplicationStatusHistory 
                         (ApplicationID, NewStatus, ChangedBy, Remarks)
                         VALUES 
-                        (@AppID, 'Interview Scheduled', 'HR Staff',
+                        (@AppID, 'For Interview', 'HR Staff',
                          CONCAT('Scheduled interview with: ', @Interviewer))";
 
                     using (MySqlCommand histCmd = new MySqlCommand(historyQuery, conn))
@@ -81,6 +129,8 @@ namespace HR_Recruitment_Workflow_Jared
                     txtAppID.Clear();
                     txtInterviewer.Clear();
                     dtpInterviewDate.Value = DateTime.Now;
+
+                    LoadApplications(); // refresh list
                 }
             }
             catch (Exception ex)

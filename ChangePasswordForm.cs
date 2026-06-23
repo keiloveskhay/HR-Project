@@ -1,6 +1,7 @@
-using System;
-using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System;
+using System.Drawing; // Required for Label/TextBox locations
+using System.Windows.Forms;
 
 namespace HR_Project
 {
@@ -8,120 +9,52 @@ namespace HR_Project
     {
         private int userId;
 
-        private TextBox oldBox;
-        private TextBox newBox;
-        private TextBox confirmBox;
-        private Button okBtn;
-        private Button cancelBtn;
+        // Define these at the class level so the whole file can "see" them
+        private TextBox oldBox = new TextBox();
+        private TextBox newBox = new TextBox();
+        private TextBox confirmBox = new TextBox();
 
         public ChangePasswordForm(int userId)
         {
             this.userId = userId;
+            this.Text = "Change Password";
+            this.Width = 480;
+            this.Height = 220;
 
-            Text = "Change Password";
-            Width = 480;
-            Height = 220;
-
-            InitializeComponents();
+            // Call the setup method
+            SetupFormLayout();
         }
 
-        private void InitializeComponents()
+        private void SetupFormLayout()
         {
-            Label lOld = new Label
-            {
-                Text = "Old Password:",
-                Left = 10,
-                Top = 10,
-                Width = 120
-            };
+            Label lOld = new Label { Text = "Old Password:", Left = 10, Top = 10, Width = 120 };
+            oldBox = new TextBox { Left = 140, Top = 10, Width = 300, UseSystemPasswordChar = true };
 
-            oldBox = new TextBox
-            {
-                Left = 140,
-                Top = 10,
-                Width = 300,
-                UseSystemPasswordChar = true
-            };
+            Label lNew = new Label { Text = "New Password:", Left = 10, Top = 50, Width = 120 };
+            newBox = new TextBox { Left = 140, Top = 50, Width = 300, UseSystemPasswordChar = true };
 
-            Label lNew = new Label
-            {
-                Text = "New Password:",
-                Left = 10,
-                Top = 50,
-                Width = 120
-            };
+            Label lConfirm = new Label { Text = "Confirm Password:", Left = 10, Top = 90, Width = 120 };
+            confirmBox = new TextBox { Left = 140, Top = 90, Width = 300, UseSystemPasswordChar = true };
 
-            newBox = new TextBox
-            {
-                Left = 140,
-                Top = 50,
-                Width = 300,
-                UseSystemPasswordChar = true
-            };
-
-            Label lConfirm = new Label
-            {
-                Text = "Confirm Password:",
-                Left = 10,
-                Top = 90,
-                Width = 120
-            };
-
-            confirmBox = new TextBox
-            {
-                Left = 140,
-                Top = 90,
-                Width = 300,
-                UseSystemPasswordChar = true
-            };
-
-            okBtn = new Button
-            {
-                Text = "Change Password",
-                Left = 140,
-                Top = 130,
-                Width = 140
-            };
-
-            cancelBtn = new Button
-            {
-                Text = "Cancel",
-                Left = 300,
-                Top = 130,
-                Width = 100
-            };
+            Button okBtn = new Button { Text = "Change Password", Left = 140, Top = 130, Width = 140 };
+            Button cancelBtn = new Button { Text = "Cancel", Left = 300, Top = 130, Width = 100 };
 
             okBtn.Click += OkClicked;
-            cancelBtn.Click += (s, e) => Close();
+            cancelBtn.Click += (s, e) => this.Close();
 
-            Controls.Add(lOld);
-            Controls.Add(oldBox);
-
-            Controls.Add(lNew);
-            Controls.Add(newBox);
-
-            Controls.Add(lConfirm);
-            Controls.Add(confirmBox);
-
-            Controls.Add(okBtn);
-            Controls.Add(cancelBtn);
+            this.Controls.Add(lOld);
+            this.Controls.Add(oldBox);
+            this.Controls.Add(lNew);
+            this.Controls.Add(newBox);
+            this.Controls.Add(lConfirm);
+            this.Controls.Add(confirmBox);
+            this.Controls.Add(okBtn);
+            this.Controls.Add(cancelBtn);
         }
 
         private void OkClicked(object sender, EventArgs e)
         {
-            string oldPassword = oldBox.Text.Trim();
-            string newPassword = newBox.Text.Trim();
-            string confirmPassword = confirmBox.Text.Trim();
-
-            if (string.IsNullOrWhiteSpace(oldPassword) ||
-                string.IsNullOrWhiteSpace(newPassword) ||
-                string.IsNullOrWhiteSpace(confirmPassword))
-            {
-                MessageBox.Show("Please fill in all fields.");
-                return;
-            }
-
-            if (newPassword != confirmPassword)
+            if (newBox.Text != confirmBox.Text)
             {
                 MessageBox.Show("New password confirmation does not match.");
                 return;
@@ -129,54 +62,44 @@ namespace HR_Project
 
             try
             {
-                using (MySqlConnection conn =
-                       new MySqlConnection(DatabaseConfig.ConnectionString))
+                using (MySqlConnection conn = new MySqlConnection(DatabaseConfig.ConnectionString))
                 {
                     conn.Open();
 
                     string verifyQuery = @"
-                        SELECT COUNT(*)
-                        FROM Users
-                        WHERE UserID = @UserID
-                        AND PasswordHash = @OldPassword";
+                        SELECT COUNT(*) FROM applicantaccounts aa
+                        INNER JOIN applicants a ON aa.AccountID = a.AccountID
+                        WHERE a.ApplicantID = @ApplicantID AND aa.Password = @OldPassword";
 
-                    MySqlCommand verifyCmd =
-                        new MySqlCommand(verifyQuery, conn);
-
-                    verifyCmd.Parameters.AddWithValue("@UserID", userId);
-                    verifyCmd.Parameters.AddWithValue("@OldPassword", oldPassword);
-
-                    int count = Convert.ToInt32(verifyCmd.ExecuteScalar());
-
-                    if (count == 0)
+                    using (MySqlCommand cmd = new MySqlCommand(verifyQuery, conn))
                     {
-                        MessageBox.Show("Old password is incorrect.");
-                        return;
+                        cmd.Parameters.AddWithValue("@ApplicantID", userId);
+                        cmd.Parameters.AddWithValue("@OldPassword", oldBox.Text.Trim());
+                        if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+                        {
+                            MessageBox.Show("Incorrect old password.");
+                            return;
+                        }
                     }
 
                     string updateQuery = @"
-                        UPDATE Users
-                        SET PasswordHash = @NewPassword
-                        WHERE UserID = @UserID";
+                        UPDATE applicantaccounts aa
+                        INNER JOIN applicants a ON aa.AccountID = a.AccountID
+                        SET aa.Password = @NewPassword
+                        WHERE a.ApplicantID = @ApplicantID";
 
-                    MySqlCommand updateCmd =
-                        new MySqlCommand(updateQuery, conn);
+                    using (MySqlCommand cmd = new MySqlCommand(updateQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@NewPassword", newBox.Text.Trim());
+                        cmd.Parameters.AddWithValue("@ApplicantID", userId);
+                        cmd.ExecuteNonQuery();
+                    }
 
-                    updateCmd.Parameters.AddWithValue("@NewPassword", newPassword);
-                    updateCmd.Parameters.AddWithValue("@UserID", userId);
-
-                    updateCmd.ExecuteNonQuery();
-
-                    MessageBox.Show("Password changed successfully.");
-
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    MessageBox.Show("Password updated successfully.");
+                    this.Close();
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
-            }
+            catch (Exception ex) { MessageBox.Show("Error: " + ex.Message); }
         }
     }
 }

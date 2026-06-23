@@ -1,6 +1,7 @@
-﻿using HR_Project;
+using HR_Project;
 using MySql.Data.MySqlClient;
 using System;
+using System.Data;
 using System.Windows.Forms;
 
 namespace HR_Recruitment_Workflow_Jared
@@ -12,11 +13,56 @@ namespace HR_Recruitment_Workflow_Jared
             InitializeComponent();
         }
 
+        private void FormScreening_Load(object sender, EventArgs e)
+        {
+            LoadApplications();
+        }
+
+        private void LoadApplications()
+        {
+            try
+            {
+                using (MySqlConnection conn = DatabaseConfig.GetConnection())
+                {
+                    conn.Open();
+
+                    string query = @"
+                        SELECT
+                            a.ApplicationID,
+                            CONCAT(ap.FirstName, ' ', ap.LastName) AS 'Applicant Name',
+                            jv.JobTitle AS 'Position',
+                            a.SubmittedAt AS 'Date Applied'
+                        FROM Applications a
+                        INNER JOIN Applicants ap ON a.ApplicantID = ap.ApplicantID
+                        INNER JOIN JobVacancies jv ON a.VacancyID = jv.VacancyID
+                        INNER JOIN ApplicationStatuses s ON a.StatusID = s.StatusID
+                        WHERE s.StatusName = 'Under Review'";
+
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dgvScreening.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading applications: " + ex.Message);
+            }
+        }
+
+        private void dgvScreening_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvScreening.CurrentRow != null && dgvScreening.CurrentRow.Cells["ApplicationID"].Value != DBNull.Value)
+            {
+                txtAppID.Text = dgvScreening.CurrentRow.Cells["ApplicationID"].Value.ToString();
+            }
+        }
+
         private void btnSubmitScreening_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtAppID.Text) || cmbResult.SelectedItem == null)
             {
-                MessageBox.Show("Please enter Application ID and select result.");
+                MessageBox.Show("Please select an application and a result.");
                 return;
             }
 
@@ -30,7 +76,7 @@ namespace HR_Recruitment_Workflow_Jared
             string remarks = txtRemarks.Text.Trim();
 
             int newStatusId = (result == "Qualified") ? 4 : 9;
-            int screenBy = 2;
+            int screenBy = Session.UserId > 0 ? Session.UserId : 2;
 
             try
             {
@@ -67,6 +113,8 @@ namespace HR_Recruitment_Workflow_Jared
                     txtAppID.Clear();
                     cmbResult.SelectedIndex = -1;
                     txtRemarks.Clear();
+                    
+                    LoadApplications(); // Refresh list
                 }
             }
             catch (Exception ex)

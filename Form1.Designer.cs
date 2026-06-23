@@ -1,7 +1,7 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 
-namespace HR_Recruitment_Workflow_Jared
+namespace HR_Project
 {
     partial class Form1
     {
@@ -35,6 +35,11 @@ namespace HR_Recruitment_Workflow_Jared
             txtSearch = new TextBox();
             btnSearch = new Button();
             btnLockReview = new Button();
+            cmbVacancies = new ComboBox();
+            lblVacancies = new Label();
+            lstMissingDocs = new ListBox();
+            lblMissingDocs = new Label();
+            btnViewProfile = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvApplicants).BeginInit();
             SuspendLayout();
             // 
@@ -46,6 +51,7 @@ namespace HR_Recruitment_Workflow_Jared
             dgvApplicants.RowHeadersWidth = 51;
             dgvApplicants.Size = new Size(847, 309);
             dgvApplicants.TabIndex = 0;
+            dgvApplicants.SelectionChanged += dgvApplicants_SelectionChanged;
             // 
             // txtSearch
             // 
@@ -62,6 +68,7 @@ namespace HR_Recruitment_Workflow_Jared
             btnSearch.TabIndex = 2;
             btnSearch.Text = "Search";
             btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btnSearch_Click; // FIXED: Attached click event to code-behind handler
             // 
             // btnLockReview
             // 
@@ -73,6 +80,53 @@ namespace HR_Recruitment_Workflow_Jared
             btnLockReview.UseVisualStyleBackColor = true;
             btnLockReview.Click += btnLockReview_Click;
             // 
+            // lblVacancies
+            // 
+            lblVacancies.AutoSize = true;
+            lblVacancies.Location = new Point(350, 35);
+            lblVacancies.Name = "lblVacancies";
+            lblVacancies.Size = new Size(100, 20);
+            lblVacancies.TabIndex = 4;
+            lblVacancies.Text = "Filter Vacancy:";
+            // 
+            // cmbVacancies
+            // 
+            cmbVacancies.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbVacancies.Location = new Point(460, 31);
+            cmbVacancies.Name = "cmbVacancies";
+            cmbVacancies.Size = new Size(250, 28);
+            cmbVacancies.TabIndex = 5;
+            cmbVacancies.SelectedIndexChanged += cmbVacancies_SelectedIndexChanged;
+            // 
+            // lblMissingDocs
+            // 
+            lblMissingDocs.AutoSize = true;
+            lblMissingDocs.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblMissingDocs.Location = new Point(910, 35);
+            lblMissingDocs.Name = "lblMissingDocs";
+            lblMissingDocs.Size = new Size(160, 23);
+            lblMissingDocs.TabIndex = 6;
+            lblMissingDocs.Text = "Missing Documents:";
+            // 
+            // lstMissingDocs
+            // 
+            lstMissingDocs.FormattingEnabled = true;
+            lstMissingDocs.ItemHeight = 20;
+            lstMissingDocs.Location = new Point(910, 64);
+            lstMissingDocs.Name = "lstMissingDocs";
+            lstMissingDocs.Size = new Size(300, 304);
+            lstMissingDocs.TabIndex = 7;
+            // 
+            // btnViewProfile
+            // 
+            btnViewProfile.Location = new Point(910, 379);
+            btnViewProfile.Name = "btnViewProfile";
+            btnViewProfile.Size = new Size(196, 29);
+            btnViewProfile.TabIndex = 8;
+            btnViewProfile.Text = "View Applicant Profile";
+            btnViewProfile.UseVisualStyleBackColor = true;
+            btnViewProfile.Click += btnViewProfile_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -82,6 +136,11 @@ namespace HR_Recruitment_Workflow_Jared
             Controls.Add(btnSearch);
             Controls.Add(txtSearch);
             Controls.Add(dgvApplicants);
+            Controls.Add(lblVacancies);
+            Controls.Add(cmbVacancies);
+            Controls.Add(lblMissingDocs);
+            Controls.Add(lstMissingDocs);
+            Controls.Add(btnViewProfile);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
@@ -96,5 +155,10 @@ namespace HR_Recruitment_Workflow_Jared
         private TextBox txtSearch;
         private Button btnSearch;
         private Button btnLockReview;
+        private ComboBox cmbVacancies;
+        private Label lblVacancies;
+        private ListBox lstMissingDocs;
+        private Label lblMissingDocs;
+        private Button btnViewProfile;
     }
 }

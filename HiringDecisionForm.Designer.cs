@@ -10,12 +10,15 @@ namespace HR_Project
 
         private ComboBox vacancyBox;
         private ListBox decisionsList;
-        private TextBox candName;
-        private TextBox candEmail;
+        private TextBox appIdBox;
         private ComboBox decisionBox;
         private TextBox notesBox;
         private Button addBtn;
         private Button refreshBtn;
+        private Label lblVacancy;
+        private Label lblAppId;
+        private Label lblDecision;
+        private Label lblNotes;
 
         protected override void Dispose(bool disposing)
         {
@@ -30,12 +33,15 @@ namespace HR_Project
         {
             this.vacancyBox = new ComboBox();
             this.decisionsList = new ListBox();
-            this.candName = new TextBox();
-            this.candEmail = new TextBox();
+            this.appIdBox = new TextBox();
             this.decisionBox = new ComboBox();
             this.notesBox = new TextBox();
             this.addBtn = new Button();
             this.refreshBtn = new Button();
+            this.lblVacancy = new Label();
+            this.lblAppId = new Label();
+            this.lblDecision = new Label();
+            this.lblNotes = new Label();
 
             this.SuspendLayout();
 
@@ -52,25 +58,29 @@ namespace HR_Project
             this.decisionsList.Location = new Point(10, 40);
             this.decisionsList.Size = new Size(860, 180);
 
-            // ======================
-            // candName
-            // ======================
-            this.candName.Location = new Point(120, 240);
-            this.candName.Size = new Size(300, 23);
+            this.lblVacancy.Location = new Point(10, 13);
+            this.lblVacancy.Text = "Vacancy:";
+            this.lblVacancy.AutoSize = true;
 
             // ======================
-            // candEmail
+            // appIdBox
             // ======================
-            this.candEmail.Location = new Point(560, 240);
-            this.candEmail.Size = new Size(310, 23);
+            this.lblAppId.Location = new Point(10, 243);
+            this.lblAppId.Text = "App ID:";
+            this.lblAppId.AutoSize = true;
+            this.appIdBox.Location = new Point(120, 240);
+            this.appIdBox.Size = new Size(300, 23);
 
             // ======================
             // decisionBox
             // ======================
+            this.lblDecision.Location = new Point(10, 283);
+            this.lblDecision.Text = "Decision:";
+            this.lblDecision.AutoSize = true;
             this.decisionBox.DropDownStyle = ComboBoxStyle.DropDownList;
             this.decisionBox.Items.AddRange(new object[]
             {
-                "Hired",
+                "Accepted",
                 "Rejected",
                 "Waitlist"
             });
@@ -80,6 +90,9 @@ namespace HR_Project
             // ======================
             // notesBox
             // ======================
+            this.lblNotes.Location = new Point(10, 323);
+            this.lblNotes.Text = "Remarks:";
+            this.lblNotes.AutoSize = true;
             this.notesBox.Multiline = true;
             this.notesBox.ScrollBars = ScrollBars.Vertical;
             this.notesBox.Location = new Point(120, 320);
@@ -113,11 +126,14 @@ namespace HR_Project
             this.ClientSize = new Size(900, 520);
             this.Text = "Hiring Decisions";
 
+            this.Controls.Add(this.lblVacancy);
             this.Controls.Add(this.vacancyBox);
             this.Controls.Add(this.decisionsList);
-            this.Controls.Add(this.candName);
-            this.Controls.Add(this.candEmail);
+            this.Controls.Add(this.lblAppId);
+            this.Controls.Add(this.appIdBox);
+            this.Controls.Add(this.lblDecision);
             this.Controls.Add(this.decisionBox);
+            this.Controls.Add(this.lblNotes);
             this.Controls.Add(this.notesBox);
             this.Controls.Add(this.addBtn);
             this.Controls.Add(this.refreshBtn);

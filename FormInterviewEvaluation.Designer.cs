@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -18,65 +18,93 @@ namespace HR_Project
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        private DataGridView dgvScheduled;
+        private Label lblScheduleID;
+        private TextBox txtAppID;
+        private Label lblScore;
+        private TextBox txtScore;
+        private Label lblFeedback;
+        private TextBox txtFeedback;
+        private Button btnSubmitEval;
 
         private void InitializeComponent()
         {
-            this.txtAppID = new System.Windows.Forms.TextBox();
-            this.txtScore = new System.Windows.Forms.TextBox();
-            this.txtFeedback = new System.Windows.Forms.TextBox();
-            this.btnSubmitEval = new System.Windows.Forms.Button();
+            dgvScheduled = new DataGridView();
+            lblScheduleID = new Label();
+            txtAppID = new TextBox();
+            lblScore = new Label();
+            txtScore = new TextBox();
+            lblFeedback = new Label();
+            txtFeedback = new TextBox();
+            btnSubmitEval = new Button();
 
-            this.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(dgvScheduled)).BeginInit();
+            SuspendLayout();
 
-            // txtAppID
-            this.txtAppID.Location = new System.Drawing.Point(331, 145);
-            this.txtAppID.Name = "txtAppID";
-            this.txtAppID.Size = new System.Drawing.Size(125, 27);
-            this.txtAppID.TabIndex = 0;
+            dgvScheduled.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvScheduled.Location = new Point(20, 20);
+            dgvScheduled.Name = "dgvScheduled";
+            dgvScheduled.RowHeadersWidth = 51;
+            dgvScheduled.Size = new Size(740, 250);
+            dgvScheduled.TabIndex = 0;
+            dgvScheduled.SelectionChanged += dgvScheduled_SelectionChanged;
 
-            // txtScore
-            this.txtScore.Location = new System.Drawing.Point(331, 178);
-            this.txtScore.Name = "txtScore";
-            this.txtScore.Size = new System.Drawing.Size(125, 27);
-            this.txtScore.TabIndex = 1;
+            lblScheduleID.AutoSize = true;
+            lblScheduleID.Location = new Point(20, 293);
+            lblScheduleID.Text = "Schedule ID:";
 
-            // txtFeedback
-            this.txtFeedback.Location = new System.Drawing.Point(331, 211);
-            this.txtFeedback.Multiline = true;
-            this.txtFeedback.Name = "txtFeedback";
-            this.txtFeedback.Size = new System.Drawing.Size(125, 34);
-            this.txtFeedback.TabIndex = 2;
+            txtAppID.Location = new Point(140, 290);
+            txtAppID.Name = "txtAppID";
+            txtAppID.Size = new Size(125, 27);
+            txtAppID.TabIndex = 1;
+            txtAppID.ReadOnly = true;
 
-            // btnSubmitEval
-            this.btnSubmitEval.Location = new System.Drawing.Point(279, 251);
-            this.btnSubmitEval.Name = "btnSubmitEval";
-            this.btnSubmitEval.Size = new System.Drawing.Size(232, 29);
-            this.btnSubmitEval.TabIndex = 3;
-            this.btnSubmitEval.Text = "Submit Interview Evaluation";
-            this.btnSubmitEval.UseVisualStyleBackColor = true;
-            this.btnSubmitEval.Click += new System.EventHandler(this.btnSubmitEval_Click);
+            lblScore.AutoSize = true;
+            lblScore.Location = new Point(20, 333);
+            lblScore.Text = "Score (1-100):";
 
-            // FormInterviewEvaluation
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btnSubmitEval);
-            this.Controls.Add(this.txtFeedback);
-            this.Controls.Add(this.txtScore);
-            this.Controls.Add(this.txtAppID);
-            this.Name = "FormInterviewEvaluation";
-            this.Text = "FormInterviewEvaluation";
+            txtScore.Location = new Point(140, 330);
+            txtScore.Name = "txtScore";
+            txtScore.Size = new Size(125, 27);
+            txtScore.TabIndex = 2;
 
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            lblFeedback.AutoSize = true;
+            lblFeedback.Location = new Point(20, 373);
+            lblFeedback.Text = "Feedback:";
+
+            txtFeedback.Location = new Point(140, 370);
+            txtFeedback.Multiline = true;
+            txtFeedback.Name = "txtFeedback";
+            txtFeedback.Size = new Size(620, 100);
+            txtFeedback.ScrollBars = ScrollBars.Vertical;
+            txtFeedback.TabIndex = 3;
+
+            btnSubmitEval.Location = new Point(140, 490);
+            btnSubmitEval.Name = "btnSubmitEval";
+            btnSubmitEval.Size = new Size(232, 35);
+            btnSubmitEval.TabIndex = 4;
+            btnSubmitEval.Text = "Submit Interview Evaluation";
+            btnSubmitEval.UseVisualStyleBackColor = true;
+            btnSubmitEval.Click += new System.EventHandler(btnSubmitEval_Click);
+
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 560);
+            Controls.Add(dgvScheduled);
+            Controls.Add(lblScheduleID);
+            Controls.Add(txtAppID);
+            Controls.Add(lblScore);
+            Controls.Add(txtScore);
+            Controls.Add(lblFeedback);
+            Controls.Add(txtFeedback);
+            Controls.Add(btnSubmitEval);
+            Name = "FormInterviewEvaluation";
+            Text = "Interview Evaluation";
+            Load += FormInterviewEvaluation_Load;
+
+            ((System.ComponentModel.ISupportInitialize)(dgvScheduled)).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
-
-        #endregion
-
-        private System.Windows.Forms.TextBox txtAppID;
-        private System.Windows.Forms.TextBox txtScore;
-        private System.Windows.Forms.TextBox txtFeedback;
-        private System.Windows.Forms.Button btnSubmitEval;
     }
 }

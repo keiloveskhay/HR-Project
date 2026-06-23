@@ -168,6 +168,15 @@ namespace HR_Project
 
                     cmd.ExecuteNonQuery();
 
+                    string docName = System.IO.Path.GetFileName(txtFilePath.Text);
+                    string logQuery = "INSERT INTO ApplicationStatusHistory (ApplicationID, NewStatus, ChangedBy, Remarks) VALUES (@AppID, 'Update', 'Applicant', @RemarksLog)";
+                    using (var logCmd = new MySqlCommand(logQuery, conn))
+                    {
+                        logCmd.Parameters.AddWithValue("@AppID", applicationId);
+                        logCmd.Parameters.AddWithValue("@RemarksLog", "Uploaded document: " + docName);
+                        logCmd.ExecuteNonQuery();
+                    }
+
                     MessageBox.Show("Document uploaded successfully!");
 
                     LoadMissingDocuments();

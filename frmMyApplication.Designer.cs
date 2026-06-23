@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace HR_Project
@@ -17,10 +17,14 @@ namespace HR_Project
         {
             dgvApplications = new DataGridView();
             btnViewStatus = new Button();
-            btnEditApplication = new Button();
+
             btnWithdraw = new Button();
             btnViewDocuments = new Button();
             lblTitle = new Label();
+            lblMissingDocs = new Label();
+            lstMissingDocs = new ListBox();
+            lblRecentUpdates = new Label();
+            dgvRecentUpdates = new DataGridView();
 
             ((System.ComponentModel.ISupportInitialize)dgvApplications).BeginInit();
             SuspendLayout();
@@ -28,8 +32,40 @@ namespace HR_Project
             // dgvApplications
             dgvApplications.Location = new Point(92, 158);
             dgvApplications.Name = "dgvApplications";
-            dgvApplications.Size = new Size(538, 306);
+            dgvApplications.Size = new Size(538, 150);
             dgvApplications.TabIndex = 0;
+            dgvApplications.SelectionChanged += new System.EventHandler(this.dgvApplications_SelectionChanged);
+            
+            // lblMissingDocs
+            lblMissingDocs.Location = new Point(92, 320);
+            lblMissingDocs.Name = "lblMissingDocs";
+            lblMissingDocs.Size = new Size(260, 20);
+            lblMissingDocs.Text = "Missing Documents:";
+            lblMissingDocs.ForeColor = SystemColors.ButtonHighlight;
+            lblMissingDocs.BackColor = SystemColors.ActiveCaptionText;
+
+            // lstMissingDocs
+            lstMissingDocs.Location = new Point(92, 345);
+            lstMissingDocs.Name = "lstMissingDocs";
+            lstMissingDocs.Size = new Size(260, 119);
+            lstMissingDocs.TabIndex = 6;
+
+            // lblRecentUpdates
+            lblRecentUpdates.Location = new Point(370, 320);
+            lblRecentUpdates.Name = "lblRecentUpdates";
+            lblRecentUpdates.Size = new Size(260, 20);
+            lblRecentUpdates.Text = "Recent Updates:";
+            lblRecentUpdates.ForeColor = SystemColors.ButtonHighlight;
+            lblRecentUpdates.BackColor = SystemColors.ActiveCaptionText;
+
+            // dgvRecentUpdates
+            dgvRecentUpdates.Location = new Point(370, 345);
+            dgvRecentUpdates.Name = "dgvRecentUpdates";
+            dgvRecentUpdates.Size = new Size(260, 119);
+            dgvRecentUpdates.TabIndex = 7;
+            dgvRecentUpdates.ReadOnly = true;
+            dgvRecentUpdates.AllowUserToAddRows = false;
+            ((System.ComponentModel.ISupportInitialize)dgvRecentUpdates).BeginInit();
 
 
             // btnViewStatus
@@ -41,18 +77,8 @@ namespace HR_Project
             btnViewStatus.TabIndex = 1;
             btnViewStatus.Text = "View Status";
             btnViewStatus.UseVisualStyleBackColor = false;
-            btnViewStatus.Click += btnViewStatus_Click;
+            btnViewStatus.Click += new System.EventHandler(this.btnViewStatus_Click);
 
-            // btnEditApplication
-            btnEditApplication.BackColor = SystemColors.ActiveCaptionText;
-            btnEditApplication.ForeColor = SystemColors.ButtonHighlight;
-            btnEditApplication.Location = new Point(708, 208);
-            btnEditApplication.Name = "btnEditApplication";
-            btnEditApplication.Size = new Size(150, 40);
-            btnEditApplication.TabIndex = 2;
-            btnEditApplication.Text = "Edit Application";
-            btnEditApplication.UseVisualStyleBackColor = false;
-            btnEditApplication.Click += btnEditApplication_Click;
 
             // btnWithdraw
             btnWithdraw.BackColor = SystemColors.ActiveCaptionText;
@@ -63,7 +89,7 @@ namespace HR_Project
             btnWithdraw.TabIndex = 3;
             btnWithdraw.Text = "Withdraw";
             btnWithdraw.UseVisualStyleBackColor = false;
-            btnWithdraw.Click += btnWithdraw_Click;
+            btnWithdraw.Click += new System.EventHandler(this.btnWithdraw_Click);
 
             // btnViewDocuments
             btnViewDocuments.BackColor = SystemColors.ActiveCaptionText;
@@ -74,7 +100,7 @@ namespace HR_Project
             btnViewDocuments.TabIndex = 4;
             btnViewDocuments.Text = "View Documents";
             btnViewDocuments.UseVisualStyleBackColor = false;
-            btnViewDocuments.Click += btnViewDocuments_Click;
+            btnViewDocuments.Click += new System.EventHandler(this.btnViewDocuments_Click);
 
             // lblTitle
             lblTitle.BackColor = SystemColors.ActiveCaptionText;
@@ -91,23 +117,30 @@ namespace HR_Project
             ClientSize = new Size(986, 543);
             Controls.Add(dgvApplications);
             Controls.Add(btnViewStatus);
-            Controls.Add(btnEditApplication);
             Controls.Add(btnWithdraw);
             Controls.Add(btnViewDocuments);
             Controls.Add(lblTitle);
+            Controls.Add(lblMissingDocs);
+            Controls.Add(lstMissingDocs);
+            Controls.Add(lblRecentUpdates);
+            Controls.Add(dgvRecentUpdates);
             Name = "frmMyApplication";
             Text = "My Applications";
-            Load += frmMyApplication_Load;
+            Load += new System.EventHandler(this.frmMyApplication_Load);
 
             ((System.ComponentModel.ISupportInitialize)dgvApplications).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvRecentUpdates).EndInit();
             ResumeLayout(false);
         }
 
         private System.Windows.Forms.DataGridView dgvApplications;
         private System.Windows.Forms.Button btnViewStatus;
-        private System.Windows.Forms.Button btnEditApplication;
         private System.Windows.Forms.Button btnWithdraw;
         private System.Windows.Forms.Button btnViewDocuments;
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label lblMissingDocs;
+        private System.Windows.Forms.ListBox lstMissingDocs;
+        private System.Windows.Forms.Label lblRecentUpdates;
+        private System.Windows.Forms.DataGridView dgvRecentUpdates;
     }
 }

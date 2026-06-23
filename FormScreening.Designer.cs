@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -18,6 +18,7 @@ namespace HR_Recruitment_Workflow_Jared
         }
 
         private Label lblTitle;
+        private DataGridView dgvScreening;
         private Label lblAppID;
         private Label lblResult;
         private Label lblRemarks;
@@ -30,6 +31,7 @@ namespace HR_Recruitment_Workflow_Jared
         private void InitializeComponent()
         {
             lblTitle = new Label();
+            dgvScreening = new DataGridView();
             lblAppID = new Label();
             lblResult = new Label();
             lblRemarks = new Label();
@@ -39,6 +41,7 @@ namespace HR_Recruitment_Workflow_Jared
             txtRemarks = new TextBox();
             btnSubmitScreening = new Button();
 
+            ((System.ComponentModel.ISupportInitialize)(dgvScreening)).BeginInit();
             SuspendLayout();
 
             lblTitle.AutoSize = true;
@@ -46,39 +49,48 @@ namespace HR_Recruitment_Workflow_Jared
             lblTitle.Location = new Point(20, 10);
             lblTitle.Text = "Applicant Screening";
 
+            dgvScreening.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvScreening.Location = new Point(20, 50);
+            dgvScreening.Name = "dgvScreening";
+            dgvScreening.RowHeadersWidth = 51;
+            dgvScreening.Size = new Size(740, 200);
+            dgvScreening.TabIndex = 0;
+            dgvScreening.SelectionChanged += dgvScreening_SelectionChanged;
+
             lblAppID.AutoSize = true;
-            lblAppID.Location = new Point(20, 50);
+            lblAppID.Location = new Point(20, 270);
             lblAppID.Text = "Application ID:";
 
-            txtAppID.Location = new Point(140, 47);
+            txtAppID.Location = new Point(140, 267);
             txtAppID.Size = new Size(120, 27);
 
             lblResult.AutoSize = true;
-            lblResult.Location = new Point(280, 50);
+            lblResult.Location = new Point(280, 270);
             lblResult.Text = "Result:";
 
-            cmbResult.Location = new Point(340, 47);
+            cmbResult.Location = new Point(340, 267);
             cmbResult.Size = new Size(150, 28);
             cmbResult.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbResult.Items.AddRange(new object[] { "Qualified", "Not Qualified" });
 
             lblRemarks.AutoSize = true;
-            lblRemarks.Location = new Point(20, 90);
+            lblRemarks.Location = new Point(20, 310);
             lblRemarks.Text = "Remarks:";
 
-            txtRemarks.Location = new Point(20, 110);
-            txtRemarks.Size = new Size(500, 200);
+            txtRemarks.Location = new Point(20, 330);
+            txtRemarks.Size = new Size(500, 150);
             txtRemarks.Multiline = true;
             txtRemarks.ScrollBars = ScrollBars.Vertical;
 
-            btnSubmitScreening.Location = new Point(340, 310);
+            btnSubmitScreening.Location = new Point(340, 490);
             btnSubmitScreening.Size = new Size(180, 35);
             btnSubmitScreening.Text = "Submit Screening";
             btnSubmitScreening.UseVisualStyleBackColor = true;
             btnSubmitScreening.Click += btnSubmitScreening_Click;
 
-            ClientSize = new Size(600, 380);
+            ClientSize = new Size(800, 560);
             Controls.Add(lblTitle);
+            Controls.Add(dgvScreening);
             Controls.Add(lblAppID);
             Controls.Add(txtAppID);
             Controls.Add(lblResult);
@@ -89,7 +101,9 @@ namespace HR_Recruitment_Workflow_Jared
 
             Name = "FormScreening";
             Text = "Screening";
+            Load += FormScreening_Load;
 
+            ((System.ComponentModel.ISupportInitialize)(dgvScreening)).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }

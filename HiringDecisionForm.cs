@@ -98,9 +98,9 @@ namespace HR_Project
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(candName.Text))
+                if (string.IsNullOrWhiteSpace(appIdBox.Text))
                 {
-                    MessageBox.Show("Candidate name required.");
+                    MessageBox.Show("Application ID required.");
                     return;
                 }
 
@@ -110,50 +110,16 @@ namespace HR_Project
                     return;
                 }
 
+                if (!int.TryParse(appIdBox.Text, out int appId))
+                {
+                    MessageBox.Show("Invalid Application ID.");
+                    return;
+                }
+
                 using (MySqlConnection conn =
                     new MySqlConnection(DatabaseConfig.ConnectionString))
                 {
                     conn.Open();
-
-                    string findApplicant = @"
-                        SELECT ap.ApplicantID
-                        FROM ApplicantProfiles ap
-                        INNER JOIN Users u ON ap.UserID = u.UserID
-                        WHERE u.FullName = @Name
-                        LIMIT 1";
-
-                    MySqlCommand cmd1 = new MySqlCommand(findApplicant, conn);
-                    cmd1.Parameters.AddWithValue("@Name", candName.Text.Trim());
-
-                    object result = cmd1.ExecuteScalar();
-
-                    if (result == null)
-                    {
-                        MessageBox.Show("Applicant not found.");
-                        return;
-                    }
-
-                    int applicantId = Convert.ToInt32(result);
-
-                    string findApp = @"
-                        SELECT ApplicationID
-                        FROM Applications
-                        WHERE ApplicantID = @A AND VacancyID = @V
-                        LIMIT 1";
-
-                    MySqlCommand cmd2 = new MySqlCommand(findApp, conn);
-                    cmd2.Parameters.AddWithValue("@A", applicantId);
-                    cmd2.Parameters.AddWithValue("@V", vacancyBox.SelectedValue);
-
-                    object appIdObj = cmd2.ExecuteScalar();
-
-                    if (appIdObj == null)
-                    {
-                        MessageBox.Show("No application found.");
-                        return;
-                    }
-
-                    int appId = Convert.ToInt32(appIdObj);
 
                     string insert = @"
                         INSERT INTO HiringDecisions
@@ -165,16 +131,62 @@ namespace HR_Project
                     cmd3.Parameters.AddWithValue("@AppID", appId);
                     cmd3.Parameters.AddWithValue("@Decision", decisionBox.Text);
                     cmd3.Parameters.AddWithValue("@Remarks", notesBox.Text);
-                    cmd3.Parameters.AddWithValue("@By", 1);
+                    cmd3.Parameters.AddWithValue("@By", Session.UserId > 0 ? Session.UserId : 1);
 
                     cmd3.ExecuteNonQuery();
+
+                    if (decisionBox.Text == "Accepted")
+                    {
+                        // Get vacancy ID
+                        string getVac = "SELECT VacancyID FROM Applications WHERE ApplicationID = @AppID";
+                        MySqlCommand cmdVac = new MySqlCommand(getVac, conn);
+                        cmdVac.Parameters.AddWithValue("@AppID", appId);
+                        object vacIdObj = cmdVac.ExecuteScalar();
+
+                        if (vacIdObj != null)
+                        {
+                            int vacId = Convert.ToInt32(vacIdObj);
+                            
+                            // Decrement slots
+                            string decSlots = "UPDATE JobVacancies SET Slots = Slots - 1 WHERE VacancyID = @VacID AND Slots > 0";
+                            MySqlCommand cmdDec = new MySqlCommand(decSlots, conn);
+                            cmdDec.Parameters.AddWithValue("@VacID", vacId);
+                            cmdDec.ExecuteNonQuery();
+
+                            // Check slots and close
+                            string checkSlots = "SELECT Slots FROM JobVacancies WHERE VacancyID = @VacID";
+                            MySqlCommand cmdCheck = new MySqlCommand(checkSlots, conn);
+                            cmdCheck.Parameters.AddWithValue("@VacID", vacId);
+                            int remaining = Convert.ToInt32(cmdCheck.ExecuteScalar());
+
+                            if (remaining <= 0)
+                            {
+                                string closeVac = "UPDATE JobVacancies SET Status = 'Closed', ClosedAt = NOW() WHERE VacancyID = @VacID";
+                                MySqlCommand cmdClose = new MySqlCommand(closeVac, conn);
+                                cmdClose.Parameters.AddWithValue("@VacID", vacId);
+                                cmdClose.ExecuteNonQuery();
+                            }
+                            
+                            // Update application status
+                            string updApp = "UPDATE Applications SET StatusID = (SELECT StatusID FROM ApplicationStatuses WHERE StatusName = 'Accepted') WHERE ApplicationID = @AppID";
+                            MySqlCommand cmdUpdApp = new MySqlCommand(updApp, conn);
+                            cmdUpdApp.Parameters.AddWithValue("@AppID", appId);
+                            cmdUpdApp.ExecuteNonQuery();
+                        }
+                    }
+                    else if (decisionBox.Text == "Rejected")
+                    {
+                        string updApp = "UPDATE Applications SET StatusID = (SELECT StatusID FROM ApplicationStatuses WHERE StatusName = 'Rejected') WHERE ApplicationID = @AppID";
+                        MySqlCommand cmdUpdApp = new MySqlCommand(updApp, conn);
+                        cmdUpdApp.Parameters.AddWithValue("@AppID", appId);
+                        cmdUpdApp.ExecuteNonQuery();
+                    }
 
                     MessageBox.Show("Decision saved.");
 
                     LoadDecisions();
 
-                    candName.Clear();
-                    candEmail.Clear();
+                    appIdBox.Clear();
                     notesBox.Clear();
                 }
             }
